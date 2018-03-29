@@ -62,16 +62,16 @@ public:
     {
         while(true)
         {
-            std::function<void()> f;
+            std::function<void()> task;
             {
                 std::unique_lock<std::mutex> lck(this->task_mx);
                 taskNotEmpty.wait(lck,[this]()->bool{return !task_queue.empty();});
-                f=task_queue.front();
+                task=task_queue.front();
                 task_queue.pop();
             }
             try
             {
-                f();
+                task();
             }
             catch(std::exception e)
             {
