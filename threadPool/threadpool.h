@@ -75,10 +75,9 @@ public:
             }
             catch(std::exception e)
             {
-                exception_mx.lock();
+                std::lock_guard<std::mutex> lck(exception_mx);
                 std::cout<<"task failed case of exception:"<<std::endl;
                 std::cout<<"thread id \t"<<std::this_thread::get_id()<<"\nexception:\t"<<e.what()<<std::endl;
-                exception_mx.unlock();
             }
         }
     }
